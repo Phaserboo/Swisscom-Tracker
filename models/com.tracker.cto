@@ -1,0 +1,110 @@
+/*
+ * TRACKER - A blockchain based business process optimizer
+ * This is a live demo of data and transaction management for the TRACKER project
+ *
+ * Made by Luigi Riva
+ */
+
+namespace com.biz
+
+/**
+ * The types of requests that could be submitted
+ */
+enum RequestType {
+  o PASSPORT_RENEWAL
+  o NEW_DRIVERLICENSE
+}
+
+/**
+ * Pre-defined status of a request
+ */
+enum RequestState {
+  o NEW
+  o WAITING_FOR_PROCESSING
+  o IN_PROGRESS
+}
+
+/**
+ * A generic user participant
+ */
+abstract participant User identified by email {
+  o String email
+  o String firstName
+  o String lastName
+}
+
+/**
+ * A Citizen participant
+ */
+participant Citizen extends User {
+    o String address1
+    o String phoneNumber
+}
+
+/**
+ * A Regulator participant
+ */
+participant Regulator extends User {
+}
+
+
+/**
+ * A public organization involved in some paperwork process. 
+ */
+participant Organization identified by sbi {
+     o String sbi
+     o String description
+}
+
+/**
+ * A paperwork request. It tracks every organization involved with and its assigned to a specific citizen creator
+ */
+asset TrackerRequest identified by qrCode {
+  o String qrCode
+  o String description
+  o RequestType type
+  o RequestState state
+  o Organization currentOrganization optional
+  o Organization[] previousOrganizations
+  --> Citizen owner
+}
+
+
+/**
+ * An abstract transaction type for processing requests
+ */
+abstract transaction ProcessRequest {
+  o String[] logs optional
+}
+
+/**
+ * A transaction used by Citizens to create request to be tracked
+ */
+transaction PlaceRequest extends ProcessRequest {
+	o String qrCode
+    o String description
+    o RequestType type
+    --> Citizen owner
+}
+
+/**
+ * A transaction type used by an organization to start working on a request
+ */
+transaction StartProcessingRequest extends ProcessRequest {
+	--> TrackerRequest request
+    --> Organization organization
+}
+
+/**
+ * A transaction type used by an organization to end working on a request
+ */
+transaction EndProcessingRequest extends ProcessRequest {
+	--> TrackerRequest request
+    --> Organization organization
+}
+
+/**
+ * Set some demo data
+ */
+transaction SetupDemo  {
+}
