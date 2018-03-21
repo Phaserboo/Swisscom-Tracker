@@ -1,0 +1,23 @@
+{
+  "name": "tracker-sample",
+  "version": "0.0.2",
+  "description": "Tracker - a blockchain based business process optimizer",
+  "scripts": {
+    "test": "mocha --recursive"
+  },
+  "author": "Luigi Riva and Martin Holoubek",
+  "email": "holoubekm@gmail.com",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "composer-admin": "^0.18.1",
+    "composer-client": "^0.18.1",
+    "composer-common": "^0.18.1",
+    "composer-connector-embedded": "^0.18.1",
+    "chai": "latest",
+    "eslint": "latest",
+    "istanbul": "latest",
+    "mkdirp": "latest",
+    "mocha": "latest"
+  },
+  "dependencies": {}
+}

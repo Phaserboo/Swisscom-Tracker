@@ -22,6 +22,7 @@ enum RequestState {
   o NEW
   o WAITING_FOR_PROCESSING
   o IN_PROGRESS
+  o FINISHED
 }
 
 /**
@@ -44,7 +45,8 @@ participant Citizen extends User {
 /**
  * A Regulator participant
  */
-participant Regulator extends User {
+participant Regulator identified by eid extends User {
+      o String eid regex=/^[0-9]+$/
 }
 
 
@@ -56,6 +58,17 @@ participant Organization identified by sbi {
      o String description
 }
 
+
+/**
+ * A public official working for an organization - his duty is to process paperworks. 
+ */
+participant Official identified by eid {
+     o String eid
+     o String firstName
+     o String lastName
+     --> Organization organization
+}
+
 /**
  * A paperwork request. It tracks every organization involved with and its assigned to a specific citizen creator
  */
@@ -64,11 +77,17 @@ asset TrackerRequest identified by qrCode {
   o String description
   o RequestType type
   o RequestState state
-  o Organization currentOrganization optional
-  o Organization[] previousOrganizations
+  --> Official currentOfficial optional
+  --> Official[] previousOfficials optional
   --> Citizen owner
 }
 
+/**
+ * An event of tracker reguest status change
+ */
+event TrackerRequestStatusChanged {
+  o TrackerRequest request
+}
 
 /**
  * An abstract transaction type for processing requests
@@ -88,19 +107,19 @@ transaction PlaceRequest extends ProcessRequest {
 }
 
 /**
- * A transaction type used by an organization to start working on a request
+ * A transaction type used by an official to start working on a request
  */
 transaction StartProcessingRequest extends ProcessRequest {
 	--> TrackerRequest request
-    --> Organization organization
+    --> Official official
 }
 
 /**
- * A transaction type used by an organization to end working on a request
+ * A transaction type used by an official to end working on a request
  */
 transaction EndProcessingRequest extends ProcessRequest {
 	--> TrackerRequest request
-    --> Organization organization
+    --> Official official
 }
 
 /**
