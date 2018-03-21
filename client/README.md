@@ -23,21 +23,24 @@ npm v8.9.x and higher
 export FABRIC_VERSION=hlfv11
 composer-playground
 ```
+5. The default browser should now open at (http://localhost:3000)
+
+
 **How to run**
-0. Go to the network folder, follow in tutorial and deploy the backend related code to the Hyperledger Fabric blockchain
-1. Install dependencies
+1. Go to the network folder, follow in tutorial and deploy the backend related code to the Hyperledger Fabric blockchain
+2. Install dependencies
 ```bash
 npm install
 ```
-2. Run the rest API server using admin network card you have created during the step 0.
+3. Run the rest API server using admin network card you have created during the step 1.
 ```bash
 composer-rest-server -c admin@tracker-sample -n always -p 5000
 ```
-3. Step into the client/app folder
-4. Run the node.js server
+4. Step into the client/app folder
+5. Run the node.js server
 ```bash
 npm start
 ```
-5. The default browser should open (http://localhost:8080)
+6. The default browser should now open at (http://localhost:3000)
 
 Enjoy!

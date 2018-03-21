@@ -36,6 +36,7 @@ composer runtime install --card PeerAdmin@hlfv1 --businessNetworkName tracker-sa
 ```bash
 composer network start --card PeerAdmin@hlfv1 --networkAdmin admin --networkAdminEnrollSecret adminpw --archiveFile tracker-sample@0.0.2.bna --file networkadmin.card
 ```
+Enjoy!
 
 You may need to update your network using the following command:
 ```bash
@@ -47,4 +48,3 @@ Or reset the network (WILL CLEAR ALL DATA)
 composer network reset --card admin@tracker-sample
 ```
 
-Enjoy!
