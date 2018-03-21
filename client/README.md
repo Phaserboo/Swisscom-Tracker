@@ -23,7 +23,7 @@ npm v8.9.x and higher
 export FABRIC_VERSION=hlfv11
 composer-playground
 ```
-5. The default browser should now open at (http://localhost:3000)
+5. The default browser should now open at (http://localhost:8080)
 
 
 **How to run**
