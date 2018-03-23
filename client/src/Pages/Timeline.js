@@ -24,11 +24,12 @@ class Timeline extends Component {
     }
 
     getEvents() {
+        const query = encodeURIComponent(this.props.curDocument.qrCode)
         this.getTypeFiltered('PlaceRequest', { "where": { "qrCode": this.props.curDocument.qrCode } })
             .then(res1 => {
-                this.getTypeFiltered('StartProcessingRequest', { "where": { "request": `resource:com.biz.TrackerRequest#${this.props.curDocument.qrCode}` } })
+                this.getTypeFiltered('StartProcessingRequest', { "where": { "request": `resource:com.biz.TrackerRequest#${query}` } })
                     .then(res2 => {
-                        this.getTypeFiltered('EndProcessingRequest', { "where": { "request": `resource:com.biz.TrackerRequest#${this.props.curDocument.qrCode}` } })
+                        this.getTypeFiltered('EndProcessingRequest', { "where": { "request": `resource:com.biz.TrackerRequest#${query}` } })
                             .then(res3 => {
                                 this.setState({ regulatorDocumentEvents: res1.concat(res2).concat(res3).sort(this.comparator) });
                             });
