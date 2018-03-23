@@ -87,11 +87,16 @@ code {
 
 .card-doc {
   height: 40rem;
-  width: 16.35rem;
+  width: 17.3rem;
 }
 
 .card-text {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.container {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
 }

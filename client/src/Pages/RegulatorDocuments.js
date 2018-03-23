@@ -16,6 +16,7 @@ class OfficialDocuments extends Component {
     }
 
     getTypeFiltered = async (type, filter) => {
+        type = encodeURIComponent(type)
         const query = encodeURIComponent(JSON.stringify(filter))
         const response = await fetch(`/api/com.biz.${type}?filter=${query}`);
         const body = await response.json();

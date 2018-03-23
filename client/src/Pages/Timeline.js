@@ -4,7 +4,7 @@ class Timeline extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { 'regulatorDocumentEvents': []};
+        this.state = { 'regulatorDocumentEvents': [] };
     }
 
     componentDidMount() {
@@ -12,6 +12,7 @@ class Timeline extends Component {
     }
 
     getTypeFiltered = async (type, filter) => {
+        type = encodeURIComponent(type);
         const query = encodeURIComponent(JSON.stringify(filter))
         const response = await fetch(`/api/com.biz.${type}?filter=${query}`);
         const body = await response.json();
@@ -37,6 +38,18 @@ class Timeline extends Component {
             })
     }
 
+    formatDate(timestamp) {
+        const date = new Date(timestamp)
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'pm' : 'am';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        var strTime = hours + ':' + minutes + ' ' + ampm;
+        return date.getMonth() + 1 + "/" + date.getDate() + "/" + date.getFullYear() + "  " + strTime;
+    }
+
     render() {
         var rows = []
         var prev = null
@@ -48,7 +61,7 @@ class Timeline extends Component {
 
             if (prev != null) {
                 timeDiff = Date.parse(d.timestamp) - Date.parse(prev.timestamp)
-                text = Math.ceil(timeDiff / 60000) + ' min'
+                text = Math.ceil(timeDiff / 60000)
             }
 
             var cls = d['$class']
@@ -61,7 +74,7 @@ class Timeline extends Component {
                                 <h4 className="timeline-title">{d.owner.split('#')[1]}</h4>
                                 <h4 className="timeline-title">{d.type}</h4>
                                 <h4 className="timeline-title">{d.qrCode}</h4>
-                                <p><small className="text-muted"><i className="glyphicon glyphicon-time"></i>{new Date(d.timestamp).toISOString()}</small></p>
+                                <p><small className="text-muted"><i className="glyphicon glyphicon-time"></i>{this.formatDate(d.timestamp)}</small></p>
                             </div>
                             <div className="timeline-body">
                                 <p></p>
@@ -71,13 +84,13 @@ class Timeline extends Component {
             } else if (cls === 'com.biz.StartProcessingRequest') {
                 event =
                     <li key={i} className={i % 2 === 0 ? 'timeline-inverted' : null}>
-                        <div className="timeline-badge success" ><div className="timeline-time-outer"><div className="timeline-time-inner"><b>{text}</b></div></div></div>
+                        <div className="timeline-badge success" ><div className="timeline-time-outer"><div className="timeline-time-inner"><b>{text}<br />min</b></div></div></div>
                         <div className="timeline-panel">
                             <div className="timeline-heading">
                                 <h4 className="timeline-title">{d.official.split('#')[1]}</h4>
                                 <h4 className="timeline-title">StartProcessingRequest</h4>
                                 <h4 className="timeline-title">{d.qrCode}</h4>
-                                <p><small className="text-muted"><i className="glyphicon glyphicon-time"></i>{new Date(d.timestamp).toISOString()}</small></p>
+                                <p><small className="text-muted"><i className="glyphicon glyphicon-time"></i>{this.formatDate(d.timestamp)}</small></p>
                             </div>
                             <div className="timeline-body">
                                 <p></p>
@@ -87,13 +100,13 @@ class Timeline extends Component {
             } else if (cls === 'com.biz.EndProcessingRequest') {
                 event =
                     <li key={i} className={i % 2 === 0 ? 'timeline-inverted' : null}>
-                        <div className="timeline-badge danger" ><div className="timeline-time-outer"><div className="timeline-time-inner"><b>{text}</b></div></div></div>
+                        <div className="timeline-badge danger" ><div className="timeline-time-outer"><div className="timeline-time-inner"><b>{text}<br />min</b></div></div></div>
                         <div className="timeline-panel">
                             <div className="timeline-heading">
                                 <h4 className="timeline-title">{d.official.split('#')[1]}</h4>
                                 <h4 className="timeline-title">EndProcessingRequest</h4>
                                 <h4 className="timeline-title">{d.qrCode}</h4>
-                                <p><small className="text-muted"><i className="glyphicon glyphicon-time"></i>{new Date(d.timestamp).toISOString()}</small></p>
+                                <p><small className="text-muted"><i className="glyphicon glyphicon-time"></i>{this.formatDate(d.timestamp)}</small></p>
                             </div>
                             <div className="timeline-body">
                                 <p></p>
@@ -104,7 +117,7 @@ class Timeline extends Component {
             rows.push(event)
             prev = d
             return event
-        })
+        }, this)
         return (
             <ul className="timeline">{rows}</ul>
         );

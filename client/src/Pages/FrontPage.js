@@ -31,6 +31,7 @@ class FrontPage extends Component {
     }
 
     getPeople = async (type) => {
+        type = encodeURIComponent(type)
         const response = await fetch('/api/com.biz.' + type);
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
@@ -44,6 +45,10 @@ class FrontPage extends Component {
         return {float: 'left'}
     }
 
+    getOrg(org) {
+        return org.split('#')[1]
+    }
+    
     render() {
         const rows = []
         const citizens = this.state.citizens
@@ -59,7 +64,7 @@ class FrontPage extends Component {
         rows.push(<Title style={{'margin-bottom': '2rem'}} title="Official" key="title_2"/>)
         rows.push(<div className="container" key="cont_2">{officials.map(function(c, key) {
             const props = this.getProps(key, citizens)
-            return <Official key={key} firstName={c.firstName} lastName={c.lastName} eid={c.eid} organization={c.organization} {...props} onClick={this.props.officialClick.bind(this, c)} />;
+            return <Official key={key} firstName={c.firstName} lastName={c.lastName} eid={c.eid} organization={this.getOrg(c.organization)} {...props} onClick={this.props.officialClick.bind(this, c)} />;
         }, this)}</div>)
         rows.push(<Title style={{'margin-bottom': '2rem'}} title="Regulator" key="title_3"/>)
         rows.push(<div className="container" key="cont_3">{regulators.map(function(c, key) {

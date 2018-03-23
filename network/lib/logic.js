@@ -140,8 +140,8 @@ function setupDemo(setupDemo) {
   ];
 
   var organizations = [
-    factory.newResource(NS, 'Organization', 'Org_A'),
-    factory.newResource(NS, 'Organization', 'Org_B')
+    factory.newResource(NS, 'Organization', 'Organization_A'),
+    factory.newResource(NS, 'Organization', 'Organization_B')
   ];
 
   var officials = [
