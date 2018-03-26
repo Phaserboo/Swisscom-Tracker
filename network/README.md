@@ -36,6 +36,15 @@ composer runtime install --card PeerAdmin@hlfv1 --businessNetworkName tracker-sa
 ```bash
 composer network start --card PeerAdmin@hlfv1 --networkAdmin admin --networkAdminEnrollSecret adminpw --archiveFile tracker-sample@0.0.2.bna --file networkadmin.card
 ```
+7. To import the network administrator identity as a usable business network card, run the following command:
+```bash
+composer card import --file networkadmin.card
+```
+8. To check that the business network has been deployed successfully, run the following command to ping the network:
+```bash
+composer network ping --card admin@tracker-sample
+```
+
 Enjoy!
 
 You may need to update your network using the following command:
@@ -47,4 +56,3 @@ Or reset the network (WILL CLEAR ALL DATA)
 ```bash
 composer network reset --card admin@tracker-sample
 ```
-

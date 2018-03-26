@@ -47,7 +47,7 @@ function onPlaceRequest(newrequest) {
       }
     })
     .catch(function (err) {
-      throw new Error(`Exception while checking the owner's existence: ${err}`);
+      throw new Error('Exception while checking the owners existence: ${err}');
     });
 }
 
